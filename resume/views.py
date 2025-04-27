@@ -96,30 +96,27 @@ def save_resume(request, cv_id=None):
 
             print(f"Received content: {content}")  # Debugging: Print content
 
-            # If no cv_id is provided, generate a new one
             if not cv_id:
                 cv_id = str(uuid.uuid4())
 
-            if not cv_date:  # If no date is provided, use the current date
-                cv_date = datetime.now().strftime("%Y-%m-%d")  # Format: YYYY-MM-DD
+            if not cv_date:
+                cv_date = datetime.now().strftime("%Y-%m-%d")
 
-            # Save to MongoDB or update if cv_id exists
             resume_collection.update_one(
-                {"cv_id": cv_id},  # Check if the document with cv_id exists
+                {"cv_id": cv_id},
                 {
                     "$set": {
-                        "resume_content": content,  # Resume content (HTML)
-                        "cv_date": cv_date,  # Provided or current date
+                        "resume_content": content,
+                        "cv_date": cv_date,
                     }
                 },
-                upsert=True,  # If cv_id doesn't exist, it will create a new document
+                upsert=True,
             )
 
             return JsonResponse(
                 {"success": True, "message": "Resume saved successfully"}
             )
 
-        # If content is in JSON format
         elif request.content_type == "application/json":
             try:
                 data = json.loads(request.body)
@@ -128,23 +125,21 @@ def save_resume(request, cv_id=None):
 
                 print(f"Received content: {content}")  # Debugging: Print content
 
-                # If no cv_id is provided, generate a new one
                 if not cv_id:
                     cv_id = str(uuid.uuid4())
 
-                if not cv_date:  # If no date is provided, use the current date
-                    cv_date = datetime.now().strftime("%Y-%m-%d")  # Format: YYYY-MM-DD
+                if not cv_date:
+                    cv_date = datetime.now().strftime("%Y-%m-%d")
 
-                # Save to MongoDB or update if cv_id exists
                 resume_collection.update_one(
-                    {"cv_id": cv_id},  # Check if the document with cv_id exists
+                    {"cv_id": cv_id},
                     {
                         "$set": {
-                            "resume_content": content,  # Resume content (HTML)
-                            "cv_date": cv_date,  # Provided or current date
+                            "resume_content": content,
+                            "cv_date": cv_date,
                         }
                     },
-                    upsert=True,  # If cv_id doesn't exist, it will create a new document
+                    upsert=True,
                 )
 
                 return JsonResponse(
@@ -160,17 +155,19 @@ def save_resume(request, cv_id=None):
             )
 
     elif request.method == "GET":
-        # If it's a GET request, fetch resume data using cv_id from the URL
         if cv_id:
             resume_data = resume_collection.find_one({"cv_id": cv_id})
             if resume_data:
-                # If resume data is found, render it to the template
+                # Rendering resume data to the template
                 return render(request, "index.html", {"resume_data": resume_data})
             else:
                 return JsonResponse({"success": False, "message": "Resume not found"})
         else:
-            # If no cv_id is provided in GET request, just render the index page
-            return render(request, "index.html")
+            # If no cv_id is provided, render the index page with no data
+            return render(request, "index.html", {"resume_data": None})
+
+    # Default response (in case of unsupported method)
+    return JsonResponse({"success": False, "message": "Method not allowed"})
 
 
 def list_resumes(request):
