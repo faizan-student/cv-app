@@ -1,5 +1,7 @@
 from django.urls import path
 from .views import *
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path("test-mongo/", test_mongo_connection),
@@ -12,4 +14,4 @@ urlpatterns = [
     path("detail_resume/<str:cv_id>/", detail_resume, name="detail_resume"),
     path("save_resume/<str:cv_id>/", save_resume, name="save_resume_with_cv_id"),
     path("recent/", recent_activity_view),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
