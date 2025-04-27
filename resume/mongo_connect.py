@@ -1,7 +1,14 @@
+import os
+from dotenv import load_dotenv
 from pymongo import MongoClient
 
-MONGO_URI = "mongodb+srv://ccp_message:ccp_resume_c@ccptest.rqltj2b.mongodb.net/?retryWrites=true&w=majority&appName=ccptest"
+# Load .env file
+load_dotenv()
 
+# Access MongoDB URI from .env
+MONGO_URI = os.getenv("MONGO_URI")
+
+# Establish MongoDB connection
 client = MongoClient(MONGO_URI)
 
 # Select the database (can be any name you want)
