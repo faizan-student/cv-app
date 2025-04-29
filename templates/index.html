@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 </head>
 
 <body>
@@ -427,7 +429,7 @@
     });
 
     function exportPDF() {
-      let content = document.getElementById("document-content"); // <-- updated ID
+      let content = document.getElementById("document-content");
 
       if (!content) {
         console.error("Editor not found!");
@@ -437,10 +439,12 @@
       let originalMaxHeight = content.style.maxHeight;
       content.style.maxHeight = "none";
 
+      // html2canvas to create the image of content
       html2canvas(content, {
-        scale: 3,
+        scale: 3, // Reduce scale to lower the resolution
         useCORS: true,
-        allowTaint: true
+        allowTaint: true,
+        logging: false
       }).then(canvas => {
         const { jsPDF } = window.jspdf;
         let pdf = new jsPDF("p", "mm", "a4");
@@ -452,24 +456,32 @@
 
         let position = 0;
 
-        pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, position, imgWidth, imgHeight);
+        // Compressing image by converting it to JPG format
+        let imgData = canvas.toDataURL("image/jpeg", 1); // Reduce quality by 50%
+
+        pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
 
+        // Handle adding multiple pages
         while (heightLeft > 0) {
           position -= pageHeight;
           pdf.addPage();
-          pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, position, imgWidth, imgHeight);
+          pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
           heightLeft -= pageHeight;
         }
 
         content.style.maxHeight = originalMaxHeight;
 
+        // Save the PDF file
         pdf.save("resume.pdf");
       }).catch(error => {
         console.error("Error generating PDF:", error);
         content.style.maxHeight = originalMaxHeight;
       });
     }
+
+
+
   </script>
 
 
@@ -478,6 +490,7 @@
     const docArea = document.getElementById('document-content');
     const saveStatus = document.getElementById('saveStatus');
     let typingTimer;
+    let currentPath = window.location.pathname; // current page path
 
     // Restore from sessionStorage on page load
     window.addEventListener('load', () => {
@@ -498,7 +511,19 @@
       }, 1000);
     });
 
+    // Clear sessionStorage if navigating to another page
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const linkPath = new URL(link.href).pathname;
+        if (linkPath !== currentPath) {
+          // Different page, clear sessionStorage
+          sessionStorage.removeItem('docContent');
+        }
+        // Agar same path par ja rahe ho to kuch mat karo
+      });
+    });
   </script>
+
 
 
 </body>

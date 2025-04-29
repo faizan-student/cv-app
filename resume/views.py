@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 import uuid
 from pymongo import DESCENDING
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -175,21 +175,28 @@ def list_resumes(request):
         try:
             # MongoDB se resume data fetch kar rahe hain
             resumes = list(
-                resume_collection.find({}, {"_id": 0}).sort(  # _id ko hide kar diya
-                    "cv_date", DESCENDING
-                )  # Date ke according latest pehle aaye
+                resume_collection.find({}, {"_id": 0}).sort("cv_date", DESCENDING)
             )
 
             # Pagination
             paginator = Paginator(resumes, 5)  # 5 items per page
-            page_number = request.GET.get("page")  # Current page number
-            page_obj = paginator.get_page(page_number)
+            page_number = request.GET.get("page") or 1  # Default page 1
+            try:
+                page_obj = paginator.page(page_number)
+            except PageNotAnInteger:
+                page_obj = paginator.page(1)
+            except EmptyPage:
+                page_obj = paginator.page(paginator.num_pages)
 
-            # Resumes ko context me bhej rahe hain template me render karne ke liye
-            return render(request, "history.html", {"page_obj": page_obj})
+            # Template me data bhejna
+            context = {"page_obj": page_obj}
+            return render(request, "history.html", context)
 
         except Exception as e:
-            return render(request, "history.html", {"error": str(e)})
+            # Agar koi error aaye to error message ke sath render
+            return render(
+                request, "history.html", {"error": f"Error fetching resumes: {str(e)}"}
+            )
 
 
 @csrf_exempt
