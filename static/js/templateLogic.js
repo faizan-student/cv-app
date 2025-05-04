@@ -34,6 +34,8 @@ document.querySelector('.customize-btn').addEventListener('click', () => {
   } else if (templateDesign === 2) {
     fetchTemplateAndApply('basic-1-1.html');
   } else if (templateDesign === 3) {
+    fetchTemplateAndApply('professional-14-16.html');
+  } else if (templateDesign === 4) {
     fetchTemplateAndApply('creative-4-16.html');
   }
 

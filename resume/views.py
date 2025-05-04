@@ -385,6 +385,8 @@ def get_resume_data(request):
         elif template_number == 2:
             template = "resume_design/basic-1-1.html"
         elif template_number == 3:
+            template = "resume_design/professional-14-16.html"
+        elif template_number == 4:
             template = "resume_design/creative-4-16.html"
         else:
             template = "resume_design/creative-1-16.html"  # Default template
