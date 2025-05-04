@@ -121,39 +121,39 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeHighlightColorPicker();
 
 
-    insertImageInput.addEventListener('change', () => {
-        const file = insertImageInput.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const imageUrl = e.target.result;
+    // insertImageInput.addEventListener('change', () => {
+    //     const file = insertImageInput.files[0];
+    //     if (file && file.type.startsWith('image/')) {
+    //         const reader = new FileReader();
+    //         reader.onload = function (e) {
+    //             const imageUrl = e.target.result;
 
-                // Focus the editable area before inserting
-                docArea.focus();
+    //             // Focus the editable area before inserting
+    //             docArea.focus();
 
-                // Create the image element dynamically
-                const img = document.createElement('img');
-                img.src = imageUrl;
-                img.style.width = '150px'; // Set fixed width
-                img.style.height = '150px'; // Set fixed height
-                img.style.borderRadius = '50%'; // Make the image circular
-                img.style.position = 'absolute'; // Absolute positioning inside the container
-                img.style.top = '50px'; // 50px margin from top
-                img.style.right = '50px'; // 50px margin from right
-                img.style.border = '1px solid grey';
+    //             // Create the image element dynamically
+    //             const img = document.createElement('img');
+    //             img.src = imageUrl;
+    //             img.style.width = '150px'; // Set fixed width
+    //             img.style.height = '150px'; // Set fixed height
+    //             img.style.borderRadius = '50%'; // Make the image circular
+    //             img.style.position = 'absolute'; // Absolute positioning inside the container
+    //             img.style.top = '50px'; // 50px margin from top
+    //             img.style.right = '50px'; // 50px margin from right
+    //             img.style.border = '1px solid grey';
 
-                // Append the image to the document area
-                docArea.appendChild(img);
+    //             // Append the image to the document area
+    //             docArea.appendChild(img);
 
-                // Store history after inserting image
-                storeHistory();
-            };
-            reader.readAsDataURL(file);
-        }
+    //             // Store history after inserting image
+    //             storeHistory();
+    //         };
+    //         reader.readAsDataURL(file);
+    //     }
 
-        // Clear the input value so the same file can be re-uploaded
-        insertImageInput.value = '';
-    });
+    //     // Clear the input value so the same file can be re-uploaded
+    //     insertImageInput.value = '';
+    // });
 
 
     // Text alignment

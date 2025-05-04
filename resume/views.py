@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.http import JsonResponse
-from .mongo_connect import resume_collection
+from django.http import JsonResponse, HttpResponse
+from .mongo_connect import resume_collection, user_cv_data_collection
 import json
 from datetime import datetime
 import uuid
@@ -292,3 +292,134 @@ def test_data(request):
         return JsonResponse(
             {"success": False, "message": "Failed to insert dummy data"}
         )
+
+
+def resume_form(request):
+    return render(request, "resume-form.html")
+
+
+@csrf_exempt
+def submit_resume(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+
+            # Optional: Validate required fields before insert
+            print("Received data:", data)
+
+            # Insert into MongoDB
+            result = user_cv_data_collection.insert_one(data)
+
+            return JsonResponse(
+                {
+                    "success": True,
+                    "message": "Resume saved",
+                    "id": str(result.inserted_id),
+                }
+            )
+        except Exception as e:
+            print("Error inserting to MongoDB:", e)
+            return JsonResponse({"success": False, "message": str(e)})
+    else:
+        return JsonResponse(
+            {"success": False, "message": "Method not allowed"}, status=405
+        )
+
+
+# def get_resume_data(request):
+#     # Fetch the most recent resume data
+#     resume_data = resume_collection.find_one(sort=[("_id", -1)])
+
+#     if resume_data:
+#         resume_data["_id"] = str(resume_data["_id"])
+
+#         # Render the template and pass the data
+#         return render(
+#             request,
+#             "resume_design/creative-1-16.html",
+#             {
+#                 "fullName": resume_data.get("fullName", ""),
+#                 "jobTitle": resume_data.get("jobTitle", ""),
+#                 "email": resume_data.get("email", ""),
+#                 "phone": resume_data.get("phone", ""),
+#                 "location": resume_data.get("location", ""),
+#                 "linkedin": resume_data.get("linkedin", ""),
+#                 "github": resume_data.get("github", ""),
+#                 "stackoverflow": resume_data.get("stackoverflow", ""),
+#                 "experience": zip(
+#                     resume_data.get("companyName[]", []),
+#                     resume_data.get("jobTitle[]", []),
+#                     resume_data.get("startDate[]", []),
+#                     resume_data.get("endDate[]", []),
+#                     resume_data.get("jobDescription[]", []),
+#                 ),
+#                 "education": zip(
+#                     resume_data.get("degree[]", []),
+#                     resume_data.get("institution[]", []),
+#                     resume_data.get("eduStartDate[]", []),
+#                     resume_data.get("eduEndDate[]", []),
+#                     resume_data.get("eduDescription[]", []),
+#                 ),
+#                 "certifications": resume_data.get("certifications[]", "").split(","),
+#                 "skills": resume_data.get("skills", "").split(","),
+#                 "summary": resume_data.get("summary", ""),
+#             },
+#         )
+
+#     return JsonResponse({"error": "No data found"}, status=404)
+
+
+def get_resume_data(request):
+    # Fetch the most recent resume data from the new collection
+    resume_data = user_cv_data_collection.find_one(sort=[("_id", -1)])
+
+    if resume_data:
+        resume_data["_id"] = str(resume_data["_id"])
+
+        # Get the template number from query parameters (default to 1 if not provided)
+        template_number = int(request.GET.get("template", 1))
+
+        # Map the template number to a template
+        if template_number == 1:
+            template = "resume_design/creative-1-16.html"
+        elif template_number == 2:
+            template = "resume_design/basic-1-1.html"
+        elif template_number == 3:
+            template = "resume_design/creative-4-16.html"
+        else:
+            template = "resume_design/creative-1-16.html"  # Default template
+
+        # Render the template and pass the data
+        return render(
+            request,
+            template,
+            {
+                "fullName": resume_data.get("fullName", ""),
+                "jobTitle": resume_data.get("jobTitle", ""),
+                "email": resume_data.get("email", ""),
+                "phone": resume_data.get("phone", ""),
+                "location": resume_data.get("location", ""),
+                "linkedin": resume_data.get("linkedin", ""),
+                "github": resume_data.get("github", ""),
+                "stackoverflow": resume_data.get("stackoverflow", ""),
+                "experience": zip(
+                    resume_data.get("companyName[]", []),
+                    resume_data.get("jobTitle[]", []),
+                    resume_data.get("startDate[]", []),
+                    resume_data.get("endDate[]", []),
+                    resume_data.get("jobDescription[]", []),
+                ),
+                "education": zip(
+                    resume_data.get("degree[]", []),
+                    resume_data.get("institution[]", []),
+                    resume_data.get("eduStartDate[]", []),
+                    resume_data.get("eduEndDate[]", []),
+                    resume_data.get("eduDescription[]", []),
+                ),
+                "certifications": resume_data.get("certifications[]", "").split(","),
+                "skills": resume_data.get("skills", "").split(","),
+                "summary": resume_data.get("summary", ""),
+            },
+        )
+
+    return JsonResponse({"error": "No data found"}, status=404)

@@ -113,11 +113,6 @@
           <button aria-label="Increase indent" title="Increase indent"><i class="fas fa-outdent"></i></button>
           <button aria-label="Clear formatting" title="Clear formatting"><i class="fas fa-remove-format"></i></button>
           <div class="flex-grow"></div>
-          <select aria-label="Editing mode" title="Editing mode">
-            <option selected>Editing</option>
-            <option>Suggesting</option>
-            <option>Viewing</option>
-          </select>
         </div>
       </nav>
 
@@ -151,22 +146,13 @@
             <span class="toggle-icon">▶</span>
           </div>
           <div class="template-preview">
-            <img src="{% static 'images/cvtemplate1.png' %}" alt="Template 1" />
-          </div>
-          <div class="template-preview">
-            <img src="{% static 'images/cvtemplate1.png' %}" alt="Template 2" />
-          </div>
-          <div class="template-preview">
-            <img src="{% static 'images/cvtemplate1.png' %}" alt="Template 3" />
-          </div>
-          <div class="template-preview">
             <img src="{% static 'images/cvtemplate1.png' %}" alt="Template 4" />
           </div>
           <div class="template-preview">
-            <img src="{% static 'images/cvtemplate1.png' %}" alt="Template 5" />
+            <img src="{% static 'images/cvtemplate1.png' %}" alt="Template 6" />
           </div>
           <div class="template-preview">
-            <img src="{% static 'images/cvtemplate1.png' %}" alt="Template 6" />
+            <img src="{% static 'images/cvt4.png' %}" alt="Template 7" />
           </div>
         </div>
 
@@ -267,7 +253,7 @@
   <script>
     const toolbar = document.getElementById('custom-toolbar-float');
     const editor = document.querySelector('[contenteditable]');
-    let preventToolbarHide = false; // 🔐 New flag to protect toolbar
+    let preventToolbarHide = false;
 
     // Apply basic formatting
     function applyFormat(action) {

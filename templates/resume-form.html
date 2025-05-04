@@ -1,0 +1,263 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resume Builder</title>
+    <link rel="stylesheet" href="{% static 'css/resume-form.css' %}">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <form id="resumeForm" method="POST" action="{% url 'submit_resume' %}">
+            {% csrf_token %}
+            <!-- Personal Info Section -->
+            <div class="form-step active">
+                <h2>Personal Information</h2>
+                <input type="text" placeholder="Full Name" name="fullName" required />
+                <input type="text" placeholder="Job Title" name="jobTitle" required />
+                <button type="button" class="next">Next</button>
+            </div>
+
+            <!-- Contact Details Section -->
+            <div class="form-step">
+                <h2>Contact Details</h2>
+                <input type="email" placeholder="Email" name="email" required />
+                <input type="tel" placeholder="Phone Number" name="phone" required />
+                <input type="text" placeholder="Location" name="location" required />
+                <button type="button" class="prev">Back</button>
+                <button type="button" class="next">Next</button>
+            </div>
+
+            <!-- Linked Profiles Section -->
+            <div class="form-step">
+                <h2>Linked Profiles</h2>
+                <input type="url" placeholder="LinkedIn Profile URL" name="linkedin" />
+                <input type="url" placeholder="GitHub Profile URL" name="github" />
+                <input type="url" placeholder="Stack Overflow Profile URL" name="stackoverflow" />
+                <button type="button" class="prev">Back</button>
+                <button type="button" class="next">Next</button>
+            </div>
+
+            <!-- Work Experience Section -->
+            <div class="form-step">
+                <h2>Work Experience</h2>
+                <div id="workExperience">
+                    <div class="experience-entry">
+                        <input type="text" placeholder="Company Name" name="companyName[]" required />
+                        <input type="text" placeholder="Job Title" name="jobTitle[]" required />
+                        <input type="month" placeholder="Start Date" name="startDate[]" required />
+                        <input type="month" placeholder="End Date" name="endDate[]" required />
+                        <textarea placeholder="Job Description" name="jobDescription[]" required></textarea>
+                        <button type="button" class="remove"><i class="fas fa-trash-alt"></i> Remove</button>
+                    </div>
+                </div>
+                <button type="button" id="addExperience"><i class="fas fa-plus-circle"></i> Add Experience</button>
+                <button type="button" class="prev">Back</button>
+                <button type="button" class="next">Next</button>
+            </div>
+
+            <!-- Education Section -->
+            <div class="form-step">
+                <h2>Education</h2>
+                <div id="education">
+                    <div class="education-entry">
+                        <input type="text" placeholder="Degree" name="degree[]" required />
+                        <input type="text" placeholder="Institution Name" name="institution[]" required />
+                        <input type="month" placeholder="Start Date" name="eduStartDate[]" required />
+                        <input type="month" placeholder="End Date" name="eduEndDate[]" required />
+                        <textarea placeholder="Description" name="eduDescription[]" required></textarea>
+                        <button type="button" class="remove"><i class="fas fa-trash-alt"></i> Remove</button>
+                    </div>
+                </div>
+                <button type="button" id="addEducation"><i class="fas fa-plus-circle"></i> Add Education</button>
+                <button type="button" class="prev">Back</button>
+                <button type="button" class="next">Next</button>
+            </div>
+
+            <!-- Certifications Section -->
+            <div class="form-step">
+                <h2>Certifications</h2>
+                <textarea placeholder="Mention your certifications" name="certifications[]"></textarea>
+                <button type="button" class="prev">Back</button>
+                <button type="button" class="next">Next</button>
+            </div>
+
+            <!-- Skills Section -->
+            <div class="form-step">
+                <h2>Skills</h2>
+                <input type="text" id="skillInput" placeholder="Type a skill and press Enter" />
+                <ul id="skillsList"></ul>
+                <input type="hidden" name="skills" id="skillsHidden" />
+                <button type="button" class="prev">Back</button>
+                <button type="button" class="next">Next</button>
+            </div>
+
+            <!-- Professional Summary Section -->
+            <div class="form-step">
+                <h2>Professional Summary</h2>
+                <textarea placeholder="Write a short summary about yourself" name="summary"></textarea>
+                <button type="button" class="prev">Back</button>
+                <button type="button" id="submitButton">Submit</button>
+
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        const steps = document.querySelectorAll('.form-step');
+        const form = document.getElementById('resumeForm');
+
+        function showStep() {
+            steps.forEach((step, index) => {
+                step.classList.remove('active');
+                if (index === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+        }
+
+        document.querySelectorAll('.next').forEach(button => {
+            button.addEventListener('click', () => {
+                if (currentStep < steps.length - 1) {
+                    currentStep++;
+                    showStep();
+                }
+            });
+        });
+
+        document.querySelectorAll('.prev').forEach(button => {
+            button.addEventListener('click', () => {
+                if (currentStep > 0) {
+                    currentStep--;
+                    showStep();
+                }
+            });
+        });
+
+        document.getElementById('addExperience').addEventListener('click', () => {
+            const newExperience = document.createElement('div');
+            newExperience.classList.add('experience-entry');
+            newExperience.innerHTML = `
+                <input type="text" placeholder="Company Name" name="companyName[]" required />
+                <input type="text" placeholder="Job Title" name="jobTitle[]" required />
+                <input type="month" placeholder="Start Date" name="startDate[]" required />
+                <input type="month" placeholder="End Date" name="endDate[]" required />
+                <textarea placeholder="Job Description" name="jobDescription[]" required></textarea>
+                <button type="button" class="remove"><i class="fas fa-trash-alt"></i> Remove</button>
+            `;
+            document.getElementById('workExperience').appendChild(newExperience);
+            addRemoveButtonListeners();
+        });
+
+        document.getElementById('addEducation').addEventListener('click', () => {
+            const newEducation = document.createElement('div');
+            newEducation.classList.add('education-entry');
+            newEducation.innerHTML = `
+                <input type="text" placeholder="Degree" name="degree[]" required />
+                <input type="text" placeholder="Institution Name" name="institution[]" required />
+                <input type="month" placeholder="Start Date" name="eduStartDate[]" required />
+                <input type="month" placeholder="End Date" name="eduEndDate[]" required />
+                <textarea placeholder="Description" name="eduDescription[]" required></textarea>
+                <button type="button" class="remove"><i class="fas fa-trash-alt"></i> Remove</button>
+            `;
+            document.getElementById('education').appendChild(newEducation);
+            addRemoveButtonListeners();
+        });
+
+        function addRemoveButtonListeners() {
+            document.querySelectorAll('.remove').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.target.closest('div').remove();
+                });
+            });
+        }
+
+        addRemoveButtonListeners();
+        showStep();
+
+        // Skills Input Logic
+        const skillInput = document.getElementById('skillInput');
+        const skillsList = document.getElementById('skillsList');
+        const skillsHidden = document.getElementById('skillsHidden');
+        let skillsArray = [];
+
+        skillInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && skillInput.value.trim() !== '') {
+                e.preventDefault();
+                const skill = skillInput.value.trim();
+                skillsArray.push(skill);
+                updateSkills();
+                skillInput.value = '';
+            }
+        });
+
+        function updateSkills() {
+            skillsList.innerHTML = '';
+            skillsArray.forEach((skill, index) => {
+                const li = document.createElement('li');
+                li.textContent = skill;
+                li.style.marginBottom = '5px';
+                li.style.listStyle = 'disc inside';
+                skillsList.appendChild(li);
+            });
+            skillsHidden.value = skillsArray.join(',');
+        }
+    </script>
+
+
+    <script>
+
+        document.getElementById('submitButton').addEventListener('click', function (event) {
+            event.preventDefault();  // Prevent the default form submission
+
+            let formData = new FormData(document.getElementById('resumeForm'));
+            let data = {};
+
+            formData.forEach((value, key) => {
+                if (data[key]) {
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            });
+
+            data['skills'] = document.getElementById('skillsHidden').value;
+
+            fetch("{% url 'submit_resume' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Resume saved successfully!');
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Error: ' + error);
+                });
+        });
+
+    </script>
+
+
+
+</body>
+
+</html>

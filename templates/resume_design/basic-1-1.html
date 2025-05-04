@@ -1,0 +1,76 @@
+<div style="max-width: 960px; margin: auto; display: flex; font-family: 'Segoe UI', sans-serif; font-size: 14px; color: #000; padding: 40px 20px;">
+    <!-- Left Sidebar -->
+    <div style="width: 30%; padding-right: 30px; border-right: 2px solid #000;">
+      <h1 style="font-size: 28px; margin-bottom: 5px;">{{ fullName }}</h1>
+      <p style="font-weight: bold; color: #f57c00; margin-top: 0;">{{ jobTitle }}</p>
+      <hr>
+  
+      <h3>Contact</h3>
+      <p style="line-height: 1.5;">
+        📞 {{ phone }}<br>
+        📧 {{ email }}<br>
+        🌐 {{ website }}
+      </p>
+  
+      <h3>Skills</h3>
+      <ul style="padding-left: 20px;">
+        {% for skill in skills %}
+          <li>{{ skill }}</li>
+        {% endfor %}
+      </ul>
+  
+      <h3>Languages</h3>
+      <ul style="padding-left: 20px;">
+        {% for language, proficiency in languages %}
+          <li>{{ language }} ({{ proficiency }})</li>
+        {% endfor %}
+      </ul>
+  
+      <h3>Certifications</h3>
+      <ul style="padding-left: 20px;">
+        {% for certification in certifications %}
+          <li>{{ certification }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  
+    <!-- Right Content -->
+    <div style="width: 70%; padding-left: 30px;">
+      <!-- Profile Summary -->
+      <h2 style="border-bottom: 1px solid #000;">Profile</h2>
+      <p>
+        {{ profileSummary }}
+      </p>
+  
+      <!-- Work Experience -->
+      <h2 style="border-bottom: 1px solid #000; margin-top: 30px;">Work Experience</h2>
+      {% for company, title, start, end, description in experience %}
+        <div style="margin-bottom: 20px;">
+          <strong>{{ company }} — {{ title }}</strong><br>
+          <em>{{ start }} – {{ end }}</em>
+          <ul style="padding-left: 18px;">
+            <li>{{ description }}</li>
+          </ul>
+        </div>
+      {% endfor %}
+  
+      <!-- Education -->
+      <h2 style="border-bottom: 1px solid #000; margin-top: 30px;">Education</h2>
+      {% for degree, institution, edu_start, edu_end, edu_description in education %}
+        <div style="margin-bottom: 20px;">
+          <strong>{{ institution }} — {{ degree }}</strong><br>
+          <em>{{ edu_start }} – {{ edu_end }}</em>
+          <p>{{ edu_description }}</p>
+        </div>
+      {% endfor %}
+  
+      <!-- Awards -->
+      <h2 style="border-bottom: 1px solid #000; margin-top: 30px;">Awards</h2>
+      <ul style="padding-left: 20px;">
+        {% for award in awards %}
+          <li>{{ award }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  

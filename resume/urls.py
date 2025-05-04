@@ -14,4 +14,7 @@ urlpatterns = [
     path("detail_resume/<str:cv_id>/", detail_resume, name="detail_resume"),
     path("save_resume/<str:cv_id>/", save_resume, name="save_resume_with_cv_id"),
     path("recent/", recent_activity_view, name="recent"),
+    path("resume-form/", resume_form),
+    path("submit-resume/", submit_resume, name="submit_resume"),
+    path("get-resume/", get_resume_data, name="get_resume"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,0 +1,126 @@
+<div style="max-width: 1000px; margin: 0 auto; padding: 20px 24px; display: flex; position: relative; gap: 0;">
+    <!-- Left vertical line and diamond top -->
+    <div style="display:flex; flex-direction: column; align-items:center; margin-right: 0;">
+        <div style="width:14px; height:14px; border:2px solid #3b82f6; transform: rotate(45deg); margin-bottom: 12px; background: #fff;"></div>
+        <div style="width:2px; background:#d1d5db; flex-grow:1; height: 100%; min-height: 700px;"></div>
+    </div>
+
+    <!-- Left column -->
+    <div style="width:50%; display:flex; flex-direction: column; align-items: flex-start; position: relative; margin-left: 10;">
+        <div style="width:160px; height:160px; border: 2px solid #6b7280; border-radius: 50%; overflow: hidden; margin-bottom: 16px; position: relative;">
+            <img src="{{ profile_image_url }}" alt="Profile Picture" style="width:100%; height:100%; object-fit: cover; display:block;" />
+        </div>
+
+        <!-- SKILLS -->
+        <section style="padding-left: 8px; margin-bottom: 24px;">
+            <div style="display:flex; align-items:center; margin-bottom: 12px; font-weight:700; font-size:18px; text-transform: uppercase;">
+                <div style="width:14px; height:14px; border:2px solid #2563eb; transform: rotate(45deg); margin-right: 8px; background: #fff;"></div>
+                SKILLS
+            </div>
+            <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction: column; gap: 6px; width: 100%;">
+                {% for skill in skills %}
+                    <li style="background-color: rgba(147, 197, 253, 0.6); color: #1e40af; font-size: 12px; padding: 6px 12px; border-radius: 6px; max-width: max-content;">{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- LANGUAGES -->
+        <section style="padding-left: 8px; margin-bottom: 24px;">
+            <div style="display:flex; align-items:center; margin-bottom: 12px; font-weight:700; font-size:18px; text-transform: uppercase;">
+                <div style="width:14px; height:14px; border:2px solid #2563eb; transform: rotate(45deg); margin-right: 8px; background: #fff;"></div>
+                LANGUAGES
+            </div>
+            <div style="font-size:14px; line-height:1.3;">
+                {% for language, proficiency in languages %}
+                    <div style="margin-bottom: 12px;">
+                        <p style="font-weight:700; margin:0;">{{ language }}</p>
+                        <p style="font-style: italic; font-size: 12px; color: #6b7280; margin:0;">{{ proficiency }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- CERTIFICATIONS -->
+        <section style="padding-left: 8px; margin-bottom: 24px;">
+            <div style="display:flex; align-items:center; margin-bottom: 12px; font-weight:700; font-size:18px; text-transform: uppercase;">
+                <div style="width:14px; height:14px; border:2px solid #2563eb; transform: rotate(45deg); margin-right: 8px; background: #fff;"></div>
+                CERTIFICATIONS
+            </div>
+            <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction: column; gap: 6px; width: 100%;">
+                {% for cert in certifications %}
+                    <li style="background-color: rgba(147, 197, 253, 0.6); color: #1e40af; font-size: 12px; padding: 6px 12px; border-radius: 6px; max-width: max-content;">{{ cert }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- HONORS & AWARDS -->
+        <section style="padding-left: 8px; margin-bottom: 24px;">
+            <div style="display:flex; align-items:center; margin-bottom: 12px; font-weight:700; font-size:18px; text-transform: uppercase;">
+                <div style="width:14px; height:14px; border:2px solid #2563eb; transform: rotate(45deg); margin-right: 8px; background: #fff;"></div>
+                HONORS & AWARDS
+            </div>
+            <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction: column; gap: 6px; width: 100%;">
+                {% for award in awards %}
+                    <li style="background-color: rgba(147, 197, 253, 0.6); color: #1e40af; font-size: 12px; padding: 6px 12px; border-radius: 6px; max-width: max-content;">{{ award }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+
+    <!-- Middle vertical line -->
+    <div style="display:flex; flex-direction: column; align-items:center; margin-left: 0; margin-right: 0;">
+        <div style="width:14px; height:14px; border:2px solid #3b82f6; transform: rotate(45deg); margin-bottom: 12px; background: #fff;"></div>
+        <div style="width:2px; background:#d1d5db; flex-grow:1; height: 100%; min-height: 700px;"></div>
+    </div>
+
+    <!-- Right column -->
+    <div style="width:50%; position:relative; min-width:0; max-width:100%; margin-left: 10;">
+        <h1 style="font-size: 28px; font-weight: 400; margin-bottom: 4px;">{{ fullName }}</h1>
+        <h2 style="font-size: 14px; color: #f87171; margin-bottom: 24px; font-weight: 400;">{{ jobTitle }}</h2>
+        <p style="font-size: 14px; max-width: 100%; margin-bottom: 24px; line-height: 1.4; word-wrap: break-word;">
+            {{ summary }}
+        </p>
+
+        <!-- Contact Info -->
+        <div style="display:flex; flex-wrap: wrap; gap: 12px 40px; font-size: 14px; max-width: 100%; margin-bottom: 32px;">
+            <div style="display:flex; align-items:center; gap: 8px; width: 240px; white-space: nowrap;">
+                <i class="fas fa-envelope" style="color: #f87171;"></i> {{ email }}
+            </div>
+            <div style="display:flex; align-items:center; gap: 8px; width: 240px; white-space: nowrap;">
+                <i class="fas fa-mobile-alt" style="color: #f87171;"></i> {{ phone }}
+            </div>
+            <div style="display:flex; align-items:center; gap: 8px; width: 240px; white-space: nowrap;">
+                <i class="fas fa-map-marker-alt" style="color: #f87171;"></i> {{ location }}
+            </div>
+            <div style="display:flex; align-items:center; gap: 8px; width: 240px; white-space: nowrap;">
+                <i class="fab fa-linkedin-in" style="color: #f87171;"></i> {{ linkedin }}
+            </div>
+            <div style="display:flex; align-items:center; gap: 8px; width: 240px; white-space: nowrap;">
+                <i class="fab fa-skype" style="color: #f87171;"></i> {{ skype }}
+            </div>
+        </div>
+
+        <!-- WORK EXPERIENCE -->
+        <div style="display:flex; align-items:center; margin-bottom: 16px; font-weight: 700; font-size: 18px; text-transform: uppercase;">
+            <div style="width:14px; height:14px; border:2px solid #2563eb; transform: rotate(45deg); margin-right: 8px; background: #fff;"></div>
+            WORK EXPERIENCE
+        </div>
+        <div style="max-width: 100%; font-size: 14px; color: #000; margin-bottom: 48px;">
+            {% for title, company, start, location, description in experience %}
+                <div>
+                    <p style="font-weight: 700; font-size: 16px; margin-bottom: 2px;">{{ title }}</p>
+                    <p style="margin-bottom: 4px;">{{ company }}</p>
+                    <p style="font-size: 12px; font-style: italic; color: #f87171; margin-bottom: 12px; position: relative;">
+                        {{ start }}
+                        <span style="position: absolute; right: 0; font-style: italic; font-size: 12px; color: #f87171;">{{ location }}</span>
+                    </p>
+                    <ul style="list-style: disc inside; margin: 0; padding-left: 20px; color: #1f2937; line-height: 1.4;">
+                        {% for bullet in description %}
+                            <li style="margin-bottom: 6px;">{{ bullet }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

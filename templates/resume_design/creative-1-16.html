@@ -1,0 +1,70 @@
+<div style="font-family: Arial, sans-serif; color: #000; max-width: 1000px; margin: auto; padding: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <!-- Left Side -->
+        <div style="width: 48%;">
+            <!-- Name and Title -->
+            <h1 style="margin: 0; font-size: 36px; color: #111;">{{ fullName }}</h1>
+            <p style="margin: 5px 0 20px 0; font-size: 14px; color: #555;">{{ jobTitle }}</p>
+
+            <!-- EXPERIENCE -->
+            <h3 style="color: #0074d9; border-bottom: 1px solid #ddd; padding-bottom: 5px;">EXPERIENCE</h3>
+            {% for company, title, start, end, description in experience %}
+                <div style="margin-bottom: 20px;">
+                    <p style="margin: 5px 0;"><strong>{{ company }}</strong> — <em>{{ title }}</em></p>
+                    <p style="margin: 0; font-size: 13px; color: #777;">{{ start }} - {{ end }}</p>
+                    <p style="margin: 5px 0;">{{ description }}</p>
+                </div>
+            {% endfor %}
+
+            <!-- EDUCATION -->
+            <h3 style="color: #0074d9; border-bottom: 1px solid #ddd; padding-bottom: 5px;">EDUCATION</h3>
+            {% for degree, institution, edu_start, edu_end, edu_description in education %}
+                <div style="margin-bottom: 20px;">
+                    <p style="margin: 5px 0;"><strong>{{ institution }}</strong> — <em>{{ degree }}</em></p>
+                    <p style="margin: 0; font-size: 13px; color: #777;">{{ edu_start }} - {{ edu_end }}</p>
+                    <p style="margin: 5px 0;">{{ edu_description }}</p>
+                </div>
+            {% endfor %}
+
+            <!-- PROJECTS -->
+            <h3 style="color: #0074d9; border-bottom: 1px solid #ddd; padding-bottom: 5px;">PROJECTS</h3>
+            <div style="margin-bottom: 20px;">
+                <p style="margin: 5px 0;"><strong>{{ project_name }}</strong> — <em>{{ project_detail }}</em></p>
+                <p style="margin: 0;">{{ project_description }}</p>
+            </div>
+        </div>
+
+        <!-- Right Side -->
+        <div style="width: 48%;">
+            <div style="text-align: right; margin-bottom: 20px;">
+                <p style="margin: 0;">{{ location }}</p>
+                <p style="margin: 5px 0;">{{ phone }}<br><span
+                        style="font-weight: bold; color: #0074d9;">{{ email }}</span></p>
+            </div>
+
+            <!-- SKILLS -->
+            <h3 style="color: #0074d9; border-bottom: 1px solid #ddd; padding-bottom: 5px;">SKILLS</h3>
+            <ul style="margin: 0 0 20px 20px; padding: 0; list-style-type: disc; font-size: 14px;">
+                {% for skill in skills %}
+                    <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+
+            <!-- AWARDS -->
+            <h3 style="color: #0074d9; border-bottom: 1px solid #ddd; padding-bottom: 5px;">AWARDS</h3>
+            <ul style="margin: 0 0 20px 20px; padding: 0; list-style-type: square; font-size: 14px;">
+                {% for award in awards %}
+                    <li>{{ award }}</li>
+                {% endfor %}
+            </ul>
+
+            <!-- LANGUAGES -->
+            <h3 style="color: #0074d9; border-bottom: 1px solid #ddd; padding-bottom: 5px;">LANGUAGES</h3>
+            <ul style="margin: 0 0 20px 20px; padding: 0; list-style-type: circle; font-size: 14px;">
+                {% for language, proficiency in languages %}
+                    <li>{{ language }} - {{ proficiency }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
