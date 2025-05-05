@@ -10,9 +10,9 @@ SECRET_KEY = "django-insecure-6u-m_%jzoga!c!q-(mmh9%+1*+0)z%1c)_h_i$sj$rouz2g&5e
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "cv-app-dy43.onrender.com",  # Render ka domain name
-    "127.0.0.1",  # Local development ke liye
-    "localhost",  # Local development ke liye
+    "cv-app-dy43.onrender.com",
+    "127.0.0.1",
+    "localhost",
 ]
 
 

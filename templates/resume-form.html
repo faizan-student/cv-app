@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Resume Builder</title>
     <link rel="stylesheet" href="{% static 'css/resume-form.css' %}">
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 
@@ -214,7 +213,7 @@
     <script>
 
         document.getElementById('submitButton').addEventListener('click', function (event) {
-            event.preventDefault();  // Prevent the default form submission
+            event.preventDefault();
 
             let formData = new FormData(document.getElementById('resumeForm'));
             let data = {};

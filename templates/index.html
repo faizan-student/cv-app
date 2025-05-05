@@ -61,7 +61,7 @@
           <button aria-label="Spelling and grammar check" title="Spelling and grammar check"><i
               class="fas fa-check"></i></button>
           <button aria-label="Paint format" title="Paint format"><i class="fas fa-paint-brush"></i></button>
-          <!-- <div class="divider"></div> -->
+
           <select aria-label="Zoom" title="Zoom">
             <option>50%</option>
             <option>75%</option>
@@ -70,7 +70,7 @@
             <option>150%</option>
             <option>200%</option>
           </select>
-          <!-- <div class="divider"></div> -->
+
           <select aria-label="Text style" title="Text style">
             <option>Normal text</option>
             <option>Title</option>
@@ -125,13 +125,13 @@
         <button data-action="foreColor">A</button>
         <button data-action="hyperlink">🔗</button>
 
-        <!-- Hyperlink input field -->
+
         <div id="link-input-wrapper" style="display: none;">
           <input type="text" id="link-input" placeholder="Enter URL" />
           <button id="add-link-button">Add Link</button>
         </div>
 
-        <!-- Color picker -->
+
         <input type="color" id="color-picker" style="display: none;">
       </div>
 
@@ -146,20 +146,20 @@
             <span class="toggle-icon">▶</span>
           </div>
           <div class="template-preview">
-            <img src="{% static 'images/cvtemplate1.png' %}" alt="Template 1" />
+            <img src="{% static 'images/cvt2.png' %}" alt="Template 1" />
           </div>
           <div class="template-preview">
-            <img src="{% static 'images/cvtemplate1.png' %}" alt="Template 2" />
+            <img src="{% static 'images/cvt1.png' %}" alt="Template 2" />
           </div>
           <div class="template-preview">
-            <img src="{% static 'images/cvt4.png' %}" alt="Template 3" />
+            <img src="{% static 'images/cvt3.png' %}" alt="Template 3" />
           </div>
           <div class="template-preview">
-            <img src="{% static 'images/cvt5.png' %}" alt="Template 4" />
+            <img src="{% static 'images/cvt4.png' %}" alt="Template 4" />
           </div>
         </div>
 
-        <!-- Modal Overlay -->
+
         <div class="modal-overlay" id="templateModal">
           <div class="modal-content">
             <img id="modalImage" src="" alt="Template Preview" />
@@ -192,7 +192,7 @@
 
 
   <script>
-    // Sidebar toggle for small screens
+
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('sidebarToggle');
 
@@ -200,7 +200,7 @@
       sidebar.classList.toggle('open');
     });
 
-    // Close sidebar when clicking outside on small screens
+
     document.addEventListener('click', (e) => {
       if (!sidebar.contains(e.target) && !toggleBtn.contains(e.target) && window.innerWidth <= 768) {
         sidebar.classList.remove('open');
@@ -213,7 +213,7 @@
     const curtain = document.querySelector('.template-curtain');
     const h4 = document.querySelector('.template-header h4');
 
-    // Toggle function for opening/closing
+
     toggleIcon.addEventListener('click', () => {
       curtain.classList.toggle('open');
       toggleIcon.classList.toggle('open');
@@ -234,7 +234,7 @@
       });
     });
 
-    // Close modal on clicking outside the content
+
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
         modal.classList.remove('show');
@@ -244,9 +244,9 @@
 
     document.querySelector('nav.toolbar').addEventListener('wheel', function (e) {
       if (e.deltaY !== 0) {
-        // Prevent vertical scrolling
+
         e.preventDefault();
-        // Scroll horizontally by the amount the wheel has scrolled
+
         this.scrollLeft += e.deltaY;
       }
     });
@@ -258,20 +258,20 @@
     const editor = document.querySelector('[contenteditable]');
     let preventToolbarHide = false;
 
-    // Apply basic formatting
+
     function applyFormat(action) {
       document.execCommand(action, false, null);
     }
 
-    // Change text color
+
     function changeTextColor() {
       const color = document.getElementById('color-picker').value;
       document.execCommand('foreColor', false, color);
     }
 
-    // Show toolbar on text select
+
     document.addEventListener('mouseup', function (e) {
-      if (preventToolbarHide) return; // 🔐 Don't hide if user clicked inside toolbar/input
+      if (preventToolbarHide) return;
 
       const selection = window.getSelection();
       const selectedText = selection.toString();
@@ -290,15 +290,15 @@
       }
     });
 
-    // Prevent hiding when interacting with toolbar elements
+
     toolbar.addEventListener('mousedown', () => {
       preventToolbarHide = true;
     });
     toolbar.addEventListener('mouseup', () => {
-      setTimeout(() => { preventToolbarHide = false; }, 100); // Delay so input can focus
+      setTimeout(() => { preventToolbarHide = false; }, 100);
     });
 
-    // Hide toolbar on scroll (unless inside input)
+
     document.addEventListener('scroll', () => {
       if (!preventToolbarHide) {
         toolbar.style.display = 'none';
@@ -306,7 +306,7 @@
       }
     });
 
-    // Toolbar buttons
+
     document.querySelectorAll('.custom-toolbar button').forEach(button => {
       button.addEventListener('click', (e) => {
         const action = button.getAttribute('data-action');
@@ -323,7 +323,7 @@
       });
     });
 
-    // Hyperlink add button
+
     document.getElementById('add-link-button').addEventListener('click', function () {
       const url = document.getElementById('link-input').value;
       if (url) {
@@ -333,10 +333,10 @@
       }
     });
 
-    // Color picker change
+
     document.getElementById('color-picker').addEventListener('input', changeTextColor);
 
-    // Input focus should not hide toolbar
+
     const linkInput = document.getElementById('link-input');
     linkInput.addEventListener('focus', () => {
       preventToolbarHide = true;
@@ -346,9 +346,9 @@
     });
 
 
-    let savedSelection = null; // 💾 To store selection range
+    let savedSelection = null;
 
-    // Save selection when opening hyperlink input
+
     document.querySelector('[data-action="hyperlink"]').addEventListener('click', () => {
       const sel = window.getSelection();
       if (sel.rangeCount > 0) {
@@ -358,22 +358,22 @@
       document.getElementById('color-picker').style.display = 'none';
     });
 
-    // Restore selection and create hyperlink
+
     document.getElementById('add-link-button').addEventListener('click', function () {
       const url = document.getElementById('link-input').value;
 
       if (url && savedSelection) {
         const sel = window.getSelection();
         sel.removeAllRanges();
-        sel.addRange(savedSelection); // 🔄 Restore previous selection
+        sel.addRange(savedSelection);
 
         document.execCommand('createLink', false, url);
 
         document.getElementById('link-input-wrapper').style.display = 'none';
         toolbar.style.display = 'none';
 
-        savedSelection = null; // Clear selection after use
-        document.getElementById('link-input').value = ''; // Clear input
+        savedSelection = null;
+        document.getElementById('link-input').value = '';
       }
     });
 
@@ -392,10 +392,10 @@
     document.getElementById('resumeForm').addEventListener('submit', function (e) {
       e.preventDefault();
 
-      // Get content from contenteditable div
+
       var content = document.getElementById('document-content').innerHTML;
 
-      // Send the content to the server via Ajax
+
       fetch('{% url "save_resume" %}', {
         method: 'POST',
         headers: {
@@ -409,7 +409,7 @@
         .then(response => response.json())
         .then(data => {
           alert(data.message);
-          // Trigger PDF export after successful form submission
+
           exportPDF();
         })
         .catch(error => {
@@ -428,9 +428,9 @@
       let originalMaxHeight = content.style.maxHeight;
       content.style.maxHeight = "none";
 
-      // html2canvas to create the image of content
+
       html2canvas(content, {
-        scale: 3, // Reduce scale to lower the resolution
+        scale: 3,
         useCORS: true,
         allowTaint: true,
         logging: false
@@ -445,13 +445,13 @@
 
         let position = 0;
 
-        // Compressing image by converting it to JPG format
-        let imgData = canvas.toDataURL("image/jpeg", 1); // Reduce quality by 50%
+
+        let imgData = canvas.toDataURL("image/jpeg", 1);
 
         pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
 
-        // Handle adding multiple pages
+
         while (heightLeft > 0) {
           position -= pageHeight;
           pdf.addPage();
@@ -461,7 +461,7 @@
 
         content.style.maxHeight = originalMaxHeight;
 
-        // Save the PDF file
+
         pdf.save("resume.pdf");
       }).catch(error => {
         console.error("Error generating PDF:", error);
@@ -479,9 +479,9 @@
     const docArea = document.getElementById('document-content');
     const saveStatus = document.getElementById('saveStatus');
     let typingTimer;
-    let currentPath = window.location.pathname; // current page path
+    let currentPath = window.location.pathname;
 
-    // Restore from sessionStorage on page load
+
     window.addEventListener('load', () => {
       const saved = sessionStorage.getItem('docContent');
       if (saved) {
@@ -490,7 +490,7 @@
       }
     });
 
-    // Save content to sessionStorage on input
+
     docArea.addEventListener('input', () => {
       saveStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
       clearTimeout(typingTimer);
@@ -500,15 +500,15 @@
       }, 1000);
     });
 
-    // Clear sessionStorage if navigating to another page
+
     document.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', (e) => {
         const linkPath = new URL(link.href).pathname;
         if (linkPath !== currentPath) {
-          // Different page, clear sessionStorage
+
           sessionStorage.removeItem('docContent');
         }
-        // Agar same path par ja rahe ho to kuch mat karo
+
       });
     });
   </script>

@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Store history for undo/redo
     function storeHistory() {
         undoStack.push(docArea.innerHTML);
-        redoStack.length = 0; // Clear redo stack on new change
+        redoStack.length = 0;
         undoBtn.disabled = false;
         redoBtn.disabled = true;
     }
@@ -68,17 +68,17 @@ document.addEventListener('DOMContentLoaded', () => {
         storeHistory();
     });
 
-    // Change text color
+
     function initializeTextColorPicker() {
         const textColorBtn = document.querySelector('[aria-label="Text color"]');
         const colorPicker = document.createElement('input');
         colorPicker.type = 'color';
-        colorPicker.style.display = 'none'; // Initially hidden
+        colorPicker.style.display = 'none';
 
-        // Append the color picker to the document
+
         document.body.appendChild(colorPicker);
 
-        // Show color picker when the text color button is clicked
+
         textColorBtn.addEventListener('click', () => {
             colorPicker.click();
         });
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Call the function to initialize the color picker
+
     initializeTextColorPicker();
 
 
@@ -99,17 +99,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const highlightColorBtn = document.querySelector('[aria-label="Highlight color"]');
         const colorPicker = document.createElement('input');
         colorPicker.type = 'color';
-        colorPicker.style.display = 'none'; // Initially hidden
+        colorPicker.style.display = 'none';
 
-        // Append the color picker to the document
+
         document.body.appendChild(colorPicker);
 
-        // Show color picker when the highlight color button is clicked
+
         highlightColorBtn.addEventListener('click', () => {
             colorPicker.click();
         });
 
-        // When the color is selected from the color picker
+
         colorPicker.addEventListener('input', () => {
             const color = colorPicker.value;
             document.execCommand('backColor', false, color);
@@ -117,46 +117,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Call the function to initialize the highlight color picker
     initializeHighlightColorPicker();
 
 
-    // insertImageInput.addEventListener('change', () => {
-    //     const file = insertImageInput.files[0];
-    //     if (file && file.type.startsWith('image/')) {
-    //         const reader = new FileReader();
-    //         reader.onload = function (e) {
-    //             const imageUrl = e.target.result;
-
-    //             // Focus the editable area before inserting
-    //             docArea.focus();
-
-    //             // Create the image element dynamically
-    //             const img = document.createElement('img');
-    //             img.src = imageUrl;
-    //             img.style.width = '150px'; // Set fixed width
-    //             img.style.height = '150px'; // Set fixed height
-    //             img.style.borderRadius = '50%'; // Make the image circular
-    //             img.style.position = 'absolute'; // Absolute positioning inside the container
-    //             img.style.top = '50px'; // 50px margin from top
-    //             img.style.right = '50px'; // 50px margin from right
-    //             img.style.border = '1px solid grey';
-
-    //             // Append the image to the document area
-    //             docArea.appendChild(img);
-
-    //             // Store history after inserting image
-    //             storeHistory();
-    //         };
-    //         reader.readAsDataURL(file);
-    //     }
-
-    //     // Clear the input value so the same file can be re-uploaded
-    //     insertImageInput.value = '';
-    // });
 
 
-    // Text alignment
+
     alignLeftBtn.addEventListener('click', () => {
         document.execCommand('justifyLeft', false, null);
         storeHistory();
@@ -177,37 +143,37 @@ document.addEventListener('DOMContentLoaded', () => {
         storeHistory();
     });
 
-    // Numbered list
+
     numberedListBtn.addEventListener('click', () => {
         document.execCommand('insertOrderedList', false, null);
         storeHistory();
     });
 
-    // Bulleted list
+
     bulletedListBtn.addEventListener('click', () => {
         document.execCommand('insertUnorderedList', false, null);
         storeHistory();
     });
 
-    // Increase font size
+
     fontSizeIncreaseBtn.addEventListener('click', () => {
         const currentSize = window.getComputedStyle(docArea).fontSize;
         docArea.style.fontSize = (parseInt(currentSize) + 2) + 'px';
         storeHistory();
     });
 
-    // Decrease font size
+
     fontSizeDecreaseBtn.addEventListener('click', () => {
         const currentSize = window.getComputedStyle(docArea).fontSize;
         docArea.style.fontSize = (parseInt(currentSize) - 2) + 'px';
         storeHistory();
     });
 
-    // Add initial document content and store history
+
     docArea.addEventListener('input', storeHistory);
     storeHistory();
 
-    // Attach undo/redo buttons
+
     undoBtn.addEventListener('click', undoAction);
     redoBtn.addEventListener('click', redoAction);
 
@@ -220,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!selection.rangeCount) return;
 
         const range = selection.getRangeAt(0);
-        if (range.collapsed) return; // kuch select nahi hua
+        if (range.collapsed) return;
 
         const span = document.createElement('span');
 
@@ -257,12 +223,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
         }
 
-        span.textContent = selection.toString(); // selected text ko span ke andar daal diya
+        span.textContent = selection.toString();
 
-        range.deleteContents(); // pehle select hua text hatao
-        range.insertNode(span); // fir span insert karo
+        range.deleteContents();
+        range.insertNode(span);
 
-        selection.removeAllRanges(); // selection clear
+        selection.removeAllRanges();
     });
 
 
@@ -270,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('[aria-label="Zoom"]').addEventListener('change', function () {
         const zoomLevel = this.value;
 
-        // Set the zoom level based on the selected option
+
         document.querySelector('.document-area').style.zoom = zoomLevel;
     });
 
