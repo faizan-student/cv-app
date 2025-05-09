@@ -243,11 +243,12 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert('Resume saved successfully!');
+                        window.location.href = data.redirect_url;  // Redirect to the new page
                     } else {
                         alert('Error: ' + data.message);
                     }
                 })
+
                 .catch(error => {
                     alert('Error: ' + error);
                 });

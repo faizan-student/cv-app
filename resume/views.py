@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.http import JsonResponse, HttpResponse
 from .mongo_connect import resume_collection, user_cv_data_collection
 import json
@@ -219,20 +220,20 @@ def submit_resume(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
-
             print("Received data:", data)
 
             result = user_cv_data_collection.insert_one(data)
-
-            return redirect("save_resume")
 
             return JsonResponse(
                 {
                     "success": True,
                     "message": "Resume saved",
-                    "id": str(result.inserted_id),
+                    "redirect_url": reverse(
+                        "save_resume"
+                    ),  # Make sure save_resume is named in urls.py
                 }
             )
+
         except Exception as e:
             print("Error inserting to MongoDB:", e)
             return JsonResponse({"success": False, "message": str(e)})
