@@ -243,7 +243,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        window.location.href = data.redirect_url;  // Redirect to the new page
+                        window.location.href = data.redirect_url;
                     } else {
                         alert('Error: ' + data.message);
                     }
